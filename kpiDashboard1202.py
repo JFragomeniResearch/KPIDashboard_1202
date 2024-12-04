@@ -29,10 +29,7 @@ def load_data():
     Load and preprocess all energy consumption data files
     """
     # Get all CSV files in the data directory (excluding parquet files)
-    data_files = glob.glob('data/*_hourly.csv')  # Changed pattern to match all _hourly.csv files
-    
-    # Debug information
-    st.sidebar.write(f"Found {len(data_files)} data files")
+    data_files = glob.glob('data/*_hourly.csv')
     
     # Create empty list to store dataframes
     dfs = []
@@ -42,9 +39,6 @@ def load_data():
         try:
             # Read CSV and handle different column structures
             temp_df = pd.read_csv(file)
-            
-            # Debug information
-            st.sidebar.write(f"Processing {os.path.basename(file)}")
             
             # Check if we need to fix column names
             if len(temp_df.columns) == 2:  # If file has exactly 2 columns
@@ -65,9 +59,6 @@ def load_data():
             
         except Exception as e:
             st.sidebar.warning(f"Could not load {file}: {str(e)}")
-    
-    # Show how many files were successfully loaded
-    st.sidebar.write(f"Successfully loaded {len(dfs)} files")
     
     # Merge all dataframes on Datetime
     if dfs:
